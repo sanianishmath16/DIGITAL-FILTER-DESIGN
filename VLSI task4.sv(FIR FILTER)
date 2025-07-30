@@ -1,0 +1,23 @@
+module fir_filter (
+  input clk,
+  input reset,
+  input [7:0] x,
+  output reg [15:0] y
+);
+
+reg [7:0] delay1, delay2;
+parameter h0 = 8'd2, h1 = 8'd3, h2 = 8'd4;
+
+always @(posedge clk or posedge reset) begin
+  if (reset) begin
+    delay1 <= 0;
+    delay2 <= 0;
+    y <= 0;
+  end else begin
+    y <= h0*x + h1*delay1 + h2*delay2;
+    delay2 <= delay1;
+    delay1 <= x;
+  end
+end
+
+endmodule
